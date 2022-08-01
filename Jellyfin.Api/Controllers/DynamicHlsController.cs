@@ -285,7 +285,7 @@ namespace Jellyfin.Api.Controllers
             // Due to CTS.Token calling ThrowIfDisposed (https://github.com/dotnet/runtime/issues/29970) we have to "cache" the token
             // since it gets disposed when ffmpeg exits
             var cancellationToken = cancellationTokenSource.Token;
-            using var state = await StreamingHelpers.GetStreamingState(
+            var state = await StreamingHelpers.GetStreamingState(
                     streamingRequest,
                     Request,
                     _authContext,
@@ -1432,7 +1432,7 @@ namespace Jellyfin.Api.Controllers
             var cancellationTokenSource = new CancellationTokenSource();
             var cancellationToken = cancellationTokenSource.Token;
 
-            using var state = await StreamingHelpers.GetStreamingState(
+            var state = await StreamingHelpers.GetStreamingState(
                     streamingRequest,
                     Request,
                     _authContext,
@@ -1790,7 +1790,8 @@ namespace Jellyfin.Api.Controllers
                 || string.Equals(codec, "hevc", StringComparison.OrdinalIgnoreCase))
             {
                 if (EncodingHelper.IsCopyCodec(codec)
-                    && (string.Equals(state.VideoStream.CodecTag, "dovi", StringComparison.OrdinalIgnoreCase)
+                    && (string.Equals(state.VideoStream.VideoRangeType, "DOVI", StringComparison.OrdinalIgnoreCase)
+                        || string.Equals(state.VideoStream.CodecTag, "dovi", StringComparison.OrdinalIgnoreCase)
                         || string.Equals(state.VideoStream.CodecTag, "dvh1", StringComparison.OrdinalIgnoreCase)
                         || string.Equals(state.VideoStream.CodecTag, "dvhe", StringComparison.OrdinalIgnoreCase)))
                 {
