@@ -752,6 +752,10 @@ namespace Emby.Server.Implementations.Session
                     data.Played = false;
                 }
             }
+            else
+            {
+                data.Played = false;
+            }
 
             _userDataManager.SaveUserData(user, item, data, UserDataSaveReason.PlaybackStart, CancellationToken.None);
         }
